@@ -15,7 +15,7 @@ const Signup = () => {
   const googleAuth = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        const user = result.user;
+        // const user = result.user;
         // console.log(user);
       }).catch((error) => {
         const errorMessage = error.message;
@@ -44,7 +44,7 @@ const Signup = () => {
   const handleConfirmPassBlur = e => {
     if(e.target.value === ''){
       setConfirmPass({value: '', error: 'Field must not be empty!'})
-    }else if(password != e.target.value){
+    }else if(password !== e.target.value){
       setConfirmPass({value: '', error: 'Confirm password doesn\'t matched'})
     } else {
       setConfirmPass({value: e.target.value, error: ''});
@@ -59,8 +59,8 @@ const Signup = () => {
         console.log(user);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
         // ..
       });
       setEmail('')
