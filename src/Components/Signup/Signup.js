@@ -7,9 +7,9 @@ import { auth } from '../Firebase/Firebase.init'
 const googleProvider = new GoogleAuthProvider();
 const Signup = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPass, setConfirmPass] = useState('')
+  const [email, setEmail] = useState({value: '', error: ''})
+  const [password, setPassword] = useState({value: '', error: ''})
+  const [confirmPass, setConfirmPass] = useState({value: '', error: ''})
 
   // Sing in google auth
   const googleAuth = () => {
@@ -26,21 +26,36 @@ const Signup = () => {
 
   // Sign up with email and password
   const handleEmailBlur = e => {
-    setEmail(e.target.value);
+    if(e.target.value === ''){
+      setEmail({value: '', error: 'Field must not be empty!'})
+    } else {
+      setEmail({value: e.target.value, error: ''});
+    }
   }
   const handlePasswordBlur = e => {
-    setPassword(e.target.value);
+    if(e.target.value === ''){
+      setPassword({value: '', error: 'Field must not be empty!'})
+    } else if (e.target.value.length < 7){
+      setPassword({value: '', error: 'Password is too short!'})
+    } else {
+      setPassword({value: e.target.value, error: ''});
+    }
   }
   const handleConfirmPassBlur = e => {
-    setConfirmPass(e.target.value);
+    if(e.target.value === ''){
+      setConfirmPass({value: '', error: 'Field must not be empty!'})
+    }else if(password != e.target.value){
+      setConfirmPass({value: '', error: 'Confirm password doesn\'t matched'})
+    } else {
+      setConfirmPass({value: e.target.value, error: ''});
+    }
   }
 
   const handleSignupForm = e => {
     e.preventDefault()
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         const user = userCredential.user;
-        // ...
         console.log(user);
       })
       .catch((error) => {
@@ -48,6 +63,7 @@ const Signup = () => {
         const errorMessage = error.message;
         // ..
       });
+      setEmail('')
   }
 
   return (
@@ -60,12 +76,14 @@ const Signup = () => {
             <div className='input-wrapper'>
               <input onBlur={handleEmailBlur} type='email' name='email' id='email' />
             </div>
+            <p className="error">{email?.error}</p>
           </div>
           <div className='input-field'>
             <label htmlFor='password'>Password</label>
             <div className='input-wrapper'>
               <input onBlur={handlePasswordBlur} type='password' name='password' id='password' />
             </div>
+            <p className="error">{password?.error}</p>
           </div>
           <div className='input-field'>
             <label htmlFor='confirm-password'>Confirm Password</label>
@@ -77,6 +95,7 @@ const Signup = () => {
                 onBlur={handleConfirmPassBlur}
               />
             </div>
+            <p className="error">{confirmPass?.error}</p>
           </div>
           <button type='submit' className='auth-form-submit'>
             Sign Up
