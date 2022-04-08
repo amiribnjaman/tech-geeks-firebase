@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className='logo-container'>
         <img src={Logo} alt='' />
       </div>
-      <div className='link-container'>
+      <div className='link-container' style={{display: 'flex', alignItems: 'center'}}>
         <NavLink
           className={({ isActive }) => (isActive ? "active-link" : "link")}
           to='/'
@@ -56,6 +56,7 @@ const Navbar = () => {
         >
           Login
         </NavLink>}
+        {user?.photoURL ? <img style={{width:'45px',height:'45px',borderRadius: '50%', marginLeft: '20px'}} src={user?.photoURL} alt="" /> : ''}
       </div>
     </nav>
   );
