@@ -56,7 +56,7 @@ const Navbar = () => {
         >
           Login
         </NavLink>}
-        {user?.photoURL ? <img style={{width:'45px',height:'45px',borderRadius: '50%', marginLeft: '20px'}} src={user?.photoURL} alt="" /> : ''}
+        {user?.photoURL ? <img title={user.displayName} style={{width:'45px',height:'45px',borderRadius: '50%', marginLeft: '20px'}} src={user?.photoURL} alt="" /> : ''}
       </div>
     </nav>
   );
